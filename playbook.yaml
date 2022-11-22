@@ -1,0 +1,40 @@
+- hosts: webservers
+
+  tasks:
+    - name: update apt
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      tags: apt
+
+    - name: install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: yes
+        become: yes
+      tags: install
+
+    - name: install make
+      ansible.builtin.apt:
+        name: make
+        state: present
+        update_cache: yes
+        become: yes
+      tags: install
+
+    - name: install node
+      ansible.builtin.apt:
+        name: nodejs
+        state: latest
+        update_cache: yes
+        become: yes
+      tags: install
+
+    - name: create user Arya
+      ansible.builtin.user:
+        name: arya
+        shell: /bin/bash
+        groups: admins,developers
+        append: yes
+      tags: users
