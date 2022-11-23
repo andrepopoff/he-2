@@ -6,6 +6,17 @@
     server_info: "This is server {{ ansible_hostname }}"
 
   tasks:
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: latest
+        update_cache: yes
+      become: yes
+
+    - name: run cowsay
+      ansible.builtin.command: cowsay "{{ server_info }}"
+      register: cowsay_result
+
     - name: install nginx
       ansible.builtin.apt:
         name: nginx
