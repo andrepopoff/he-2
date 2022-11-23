@@ -1,0 +1,28 @@
+- hosts: webservers
+  vars:
+    users:
+      - jaime
+      - sansa
+      - robert
+  tasks:
+    - name: create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ users }}"
+      become: yes
+
+    - name: create git configs
+      ansible.builtin.template:
+        src: ./files/.gitconfig
+        dest: "/home/{{ item }}/.gitconfig"
+      loop: "{{ users }}"
+      become: yes
+
+    - name: set authorized keys taken from file
+      ansible.posix.authorized_key:
+        user: "{{ item }}"
+        state: present
+        key: "{{ lookup('file', './files/id_rsa.pub') }}"
+      loop: "{{ users }}"
+      become: yes
