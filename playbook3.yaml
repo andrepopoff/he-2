@@ -3,6 +3,7 @@
   vars:
     nginx_port: 8080
     root_dir: /usr/share/nginx/html
+    server_info: "This is server {{ ansible_hostname }}"
 
   tasks:
     - name: install nginx
@@ -22,7 +23,7 @@
     - name: copy html
       ansible.builtin.template:
         src: ./files/index.html
-        dest: "{{root_dir}}/index.html"
+        dest: "{{ root_dir }}/index.html"
       become: yes
 
   handlers:
