@@ -5,36 +5,15 @@
       ansible.builtin.apt:
         update_cache: yes
         cache_valid_time: 3600
-      tags: apt
+      become: yes
 
-    - name: install git
-      ansible.builtin.apt:
-        name: git
-        state: present
-        update_cache: yes
-        become: yes
-      tags: install
+    - name: install services
+      ansible.builtin.import_tasks:
+        file: install_tasks.yaml
 
-    - name: install make
-      ansible.builtin.apt:
-        name: make
-        state: present
-        update_cache: yes
-        become: yes
-      tags: install
 
-    - name: install node
-      ansible.builtin.apt:
-        name: nodejs
-        state: latest
-        update_cache: yes
-        become: yes
-      tags: install
+- name: prepare users
+  ansible.builtin.import_playbook: prepare_users.yaml
 
-    - name: create user Arya
-      ansible.builtin.user:
-        name: arya
-        shell: /bin/bash
-        groups: admins,developers
-        append: yes
-      tags: users
+- name: create webpage
+  ansible.builtin.import_playbook: create_webpage.yaml

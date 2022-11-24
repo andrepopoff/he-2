@@ -1,0 +1,20 @@
+- name: install git
+  ansible.builtin.apt:
+    name: git
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install make
+  ansible.builtin.apt:
+    name: make
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install node
+  ansible.builtin.apt:
+    name: nodejs
+    state: latest
+    update_cache: yes
+  become: yes
